@@ -1,78 +1,1254 @@
+
+
 import Navbar from './components/navbar';
 import SearchBar from './components/searchbar';
 import Categories from './components/categories';
 import ListingCard from './components/listingcard';
 import Footer from './components/footer';
+import { useEffect, useState } from 'react';
 import './css/App.css';
 
+
+const mockListings = {
+  Beachfront: [
+    {
+      image: 'https://img.freepik.com/premium-photo/wooden-beachfront-house-surrounded-by-lush-tropical-foliage-with-inviting-sandy-beach-tranquil-turquoise-water-foreground_124507-304602.jpg?ga=GA1.1.855665792.1726250483&semt=ais_hybrid',
+      title: 'Charming Beachfront House',
+      type: 'Entire home',
+      guests: '4 guests',
+      bedrooms: '2 bedrooms',
+      bathrooms: '1 bath',
+      price: '$300 per night',
+      rating: '4.9',
+      category: 'Beachfront',
+    },
+    {
+      image: 'https://img.freepik.com/premium-photo/big-mansion-seashore_70898-1896.jpg?w=826',
+      title: 'Oceanfront Villa with Private Pool',
+      type: 'Entire home',
+      guests: '6 guests',
+      bedrooms: '3 bedrooms',
+      bathrooms: '2 baths',
+      price: '$800 per night',
+      rating: '5.0',
+      category: 'Beachfront',
+    },
+    {
+      image: 'https://img.freepik.com/premium-photo/house-by-sea_681243-628.jpg?w=900',
+      title: 'Modern Beach House with Ocean Views',
+      type: 'Entire home',
+      guests: '5 guests',
+      bedrooms: '3 bedrooms',
+      bathrooms: '2 baths',
+      price: '$500 per night',
+      rating: '4.8',
+      category: 'Beachfront',
+    },
+    {
+      image: 'https://img.freepik.com/premium-photo/richard-neutra-malibu-beach-house-pop-artgenerative-ai_924589-889.jpg?w=996',
+      title: 'Cozy Beachfront Cottage',
+      type: 'Entire home',
+      guests: '3 guests',
+      bedrooms: '1 bedroom',
+      bathrooms: '1 bath',
+      price: '$250 per night',
+      rating: '4.7',
+      category: 'Beachfront',
+    },
+    {
+      image: 'https://img.freepik.com/premium-photo/luxury-private-water-villas-eye-land-sea_862994-6006.jpg?w=740',
+      title: 'Luxurious Beachfront Estate',
+      type: 'Entire home',
+      guests: '10 guests',
+      bedrooms: '5 bedrooms',
+      bathrooms: '4 baths',
+      price: '$1500 per night',
+      rating: '5.0',
+      category: 'Beachfront',
+    },
+    {
+      image: 'https://img.freepik.com/premium-photo/offshore-ponzo-illusion-golden-rush-hour-mirage-sea_982322-116976.jpg?w=740',
+      title: 'Unique Beachfront Property',
+      type: 'Entire home',
+      guests: '8 guests',
+      bedrooms: '4 bedrooms',
+      bathrooms: '3 baths',
+      price: '$900 per night',
+      rating: '4.9',
+      category: 'Beachfront',
+    },
+  ],
+  Cabins: [
+    {
+      image: 'https://img.freepik.com/premium-photo/wooden-cabins-woods_743855-61397.jpg?w=996',
+      title: 'Cozy Wooden Cabin in the Woods',
+      type: 'Entire cabin',
+      guests: '4 guests',
+      bedrooms: '2 bedrooms',
+      bathrooms: '1 bath',
+      price: '$200 per night',
+      rating: '4.8',
+      category: 'Cabins',
+    },
+    {
+      image: 'https://img.freepik.com/premium-photo/cabin-woods-with-tree-background_1267610-2169.jpg?w=740',
+      title: 'Spectacular Cabin with Mountain View',
+      type: 'Entire cabin',
+      guests: '6 guests',
+      bedrooms: '3 bedrooms',
+      bathrooms: '2 baths',
+      price: '$350 per night',
+      rating: '4.9',
+      category: 'Cabins',
+    },
+    {
+      image: 'https://img.freepik.com/premium-photo/small-wooden-house-forest-with-sun-shining-through-trees_865967-16541.jpg?w=826',
+      title: 'Modern Cabin Retreat',
+      type: 'Entire cabin',
+      guests: '5 guests',
+      bedrooms: '2 bedrooms',
+      bathrooms: '1 bath',
+      price: '$275 per night',
+      rating: '4.7',
+      category: 'Cabins',
+    },
+    {
+      image: 'https://img.freepik.com/premium-photo/cabin-with-chair-front-chair-deck_925707-3307.jpg?w=740',
+      title: 'Charming Log Cabin with Fireplace',
+      type: 'Entire cabin',
+      guests: '4 guests',
+      bedrooms: '2 bedrooms',
+      bathrooms: '1 bath',
+      price: '$225 per night',
+      rating: '4.6',
+      category: 'Cabins',
+    },
+    {
+      image: 'https://img.freepik.com/premium-photo/forest-cabin_421632-28510.jpg?w=740',
+      title: 'Luxury Cabin with Hot Tub',
+      type: 'Entire cabin',
+      guests: '8 guests',
+      bedrooms: '4 bedrooms',
+      bathrooms: '3 baths',
+      price: '$600 per night',
+      rating: '5.0',
+      category: 'Cabins',
+    },
+    {
+      image: 'https://img.freepik.com/premium-photo/cabin-by-lake-with-log-cabin-shore_924629-322528.jpg?w=740',
+      title: 'Rustic Cabin Near the Lake',
+      type: 'Entire cabin',
+      guests: '6 guests',
+      bedrooms: '3 bedrooms',
+      bathrooms: '2 baths',
+      price: '$300 per night',
+      rating: '4.8',
+      category: 'Cabins',
+    },
+  ],
+  Trending: [
+    {
+      image: 'https://img.freepik.com/premium-photo/small-functional-condominium-with-its-own-enclosed-area-garage-swimming-pool_101266-1909.jpg?w=996',
+      title: 'Trendy Loft Apartment in the City',
+      type: 'Entire home',
+      guests: '4 guests',
+      bedrooms: '2 bedrooms',
+      bathrooms: '1 bath',
+      price: '$350 per night',
+      rating: '4.8',
+      category: 'Trending',
+    },
+    {
+      image: 'https://img.freepik.com/premium-photo/building-with-balcony-that-says-apartment-bottom_1276913-5592.jpg?w=996',
+      title: 'Unique Apartment with Artistic Decor',
+      type: 'Entire home',
+      guests: '2 guests',
+      bedrooms: '1 bedroom',
+      bathrooms: '1 bath',
+      price: '$250 per night',
+      rating: '4.9',
+      category: 'Trending',
+    },
+    {
+      image: 'https://img.freepik.com/premium-photo/3d-rendering-modern-dining-room-living-room_92152-11369.jpg?w=996',
+      title: 'Chic City Apartment with Great Views',
+      type: 'Entire home',
+      guests: '3 guests',
+      bedrooms: '1 bedroom',
+      bathrooms: '1 bath',
+      price: '$275 per night',
+      rating: '4.7',
+      category: 'Trending',
+    },
+    {
+      image: 'https://img.freepik.com/premium-photo/interior-home_1048944-5531024.jpg?w=826',
+      title: 'Modern Loft with Balcony',
+      type: 'Entire home',
+      guests: '5 guests',
+      bedrooms: '2 bedrooms',
+      bathrooms: '1 bath',
+      price: '$400 per night',
+      rating: '4.8',
+      category: 'Trending',
+    },
+    {
+      image: 'https://img.freepik.com/premium-photo/living-room-with-couch-coffee-table_1276913-6686.jpg?w=996',
+      title: 'Stylish Apartment in Heart of the City',
+      type: 'Entire home',
+      guests: '4 guests',
+      bedrooms: '2 bedrooms',
+      bathrooms: '2 baths',
+      price: '$450 per night',
+      rating: '5.0',
+      category: 'Trending',
+    },
+    {
+      image: 'https://img.freepik.com/premium-photo/apartment-residential-building-exterior-housing-structure-blue-modern-house-europe-rental-home-city-district-summer-architecture-business-property-investment-vilnius-lithuania_250132-1854.jpg?w=900',
+      title: 'Urban Style Loft with Modern Amenities',
+      type: 'Entire home',
+      guests: '3 guests',
+      bedrooms: '1 bedroom',
+      bathrooms: '1 bath',
+      price: '$300 per night',
+      rating: '4.6',
+      category: 'Trending',
+    },
+  ],
+  Castles: [
+    {
+      image: 'https://img.freepik.com/premium-photo/castle-with-garden-house-background_1237301-72693.jpg?w=826',
+      title: 'Luxurious Castle Experience',
+      type: 'Entire home',
+      guests: '8 guests',
+      bedrooms: '4 bedrooms',
+      bathrooms: '3 baths',
+      price: '$1200 per night',
+      rating: '5.0',
+      category: 'Castles',
+    },
+    {
+      image: 'https://img.freepik.com/premium-photo/old-castle-sits-lake-mountains_853177-11395.jpg?w=826',
+      title: 'Medieval Castle Getaway',
+      type: 'Entire home',
+      guests: '10 guests',
+      bedrooms: '5 bedrooms',
+      bathrooms: '4 baths',
+      price: '$1500 per night',
+      rating: '4.9',
+      category: 'Castles',
+    },
+    {
+      image: 'https://img.freepik.com/premium-photo/cute-fairy-tail-dwarf-house-forrest_1154968-43690.jpg?w=740',
+      title: 'Fairy Tale Castle Retreat',
+      type: 'Entire home',
+      guests: '6 guests',
+      bedrooms: '3 bedrooms',
+      bathrooms: '2 baths',
+      price: '$900 per night',
+      rating: '4.8',
+      category: 'Castles',
+    },
+    {
+      image: 'https://img.freepik.com/premium-photo/magical-fantasy-world-mysterious-forestfairy-tale-concept-ai-generative_157027-1767.jpg?w=996',
+      title: 'Unique Castle Stay',
+      type: 'Entire home',
+      guests: '4 guests',
+      bedrooms: '2 bedrooms',
+      bathrooms: '2 baths',
+      price: '$600 per night',
+      rating: '4.7',
+      category: 'Castles',
+    },
+    {
+      image: 'https://img.freepik.com/premium-photo/world-book-day-open-book-illustration-fairies-12_595393-6126.jpg?w=996',
+      title: 'Luxurious Castle with Pool',
+      type: 'Entire home',
+      guests: '12 guests',
+      bedrooms: '6 bedrooms',
+      bathrooms: '5 baths',
+      price: '$2000 per night',
+      rating: '5.0',
+      category: 'Castles',
+    },
+    {
+      image: 'https://img.freepik.com/premium-photo/book-with-house-it_9493-4596.jpg?w=996',
+      title: 'Stunning Castle with Views',
+      type: 'Entire home',
+      guests: '8 guests',
+      bedrooms: '4 bedrooms',
+      bathrooms: '3 baths',
+      price: '$1100 per night',
+      rating: '4.9',
+      category: 'Castles',
+    },
+  ],
+  Surfing: [
+    {
+      image: 'https://img.freepik.com/premium-photo/realistic-graphic-old-vintage-surf-shop_1029679-65566.jpg?w=740',
+      title: 'Surfing Beach House',
+      type: 'Entire home',
+      guests: '6 guests',
+      bedrooms: '3 bedrooms',
+      bathrooms: '2 baths',
+      price: '$450 per night',
+      rating: '4.8',
+      category: 'Surfing',
+    },
+    {
+      image: 'https://img.freepik.com/premium-photo/counter-sunny-surf-hire-shop-beach-local-business-leisure-hobbies-sport-surfing-summer_721440-12357.jpg?w=900',
+      title: 'Ocean View Surf Camp',
+      type: 'Entire home',
+      guests: '8 guests',
+      bedrooms: '4 bedrooms',
+      bathrooms: '3 baths',
+      price: '$600 per night',
+      rating: '4.9',
+      category: 'Surfing',
+    },
+    {
+      image: 'https://img.freepik.com/premium-photo/happy-curly-young-man-surfer-with-yellow-surfing-board-walking-beach_171337-62366.jpg?w=826',
+      title: 'Surfing Bungalow by the Beach',
+      type: 'Entire home',
+      guests: '4 guests',
+      bedrooms: '2 bedrooms',
+      bathrooms: '1 bath',
+      price: '$350 per night',
+      rating: '4.7',
+      category: 'Surfing',
+    },
+    {
+      image: 'https://img.freepik.com/premium-photo/lifeguard-station-beach_156719-8.jpg?w=826',
+      title: 'Surf Retreat House with Deck',
+      type: 'Entire home',
+      guests: '5 guests',
+      bedrooms: '2 bedrooms',
+      bathrooms: '2 baths',
+      price: '$400 per night',
+      rating: '4.8',
+      category: 'Surfing',
+    },
+    {
+      image: 'https://img.freepik.com/premium-photo/row-multi-colored-umbrellas-field-against-blue-sky_1048944-15330556.jpg?w=740',
+      title: 'Coastal Surf House with Amenities',
+      type: 'Entire home',
+      guests: '6 guests',
+      bedrooms: '3 bedrooms',
+      bathrooms: '2 baths',
+      price: '$500 per night',
+      rating: '4.9',
+      category: 'Surfing',
+    },
+    {
+      image: 'https://img.freepik.com/premium-photo/small-beach-sea-beach-chairs-umbrellas-surfboards-blue-sky-8k-hdr-commercial-photog_1305056-3483.jpg?w=740',
+      title: 'Surfer\'s Dream House',
+      type: 'Entire home',
+      guests: '4 guests',
+      bedrooms: '2 bedrooms',
+      bathrooms: '1 bath',
+      price: '$300 per night',
+      rating: '4.7',
+      category: 'Surfing',
+    },
+  ],
+  Amazingviews: [
+    {
+      image: 'https://img.freepik.com/premium-photo/home-with-beautiful-mountain-view-phu-langka-national_1031327-4081.jpg?ga=GA1.1.855665792.1726250483&semt=ais_hybrid',
+      title: 'Mountain View Cabin Retreat',
+      type: 'Entire home',
+      guests: '6 guests',
+      bedrooms: '3 bedrooms',
+      bathrooms: '2 baths',
+      price: '$450 per night',
+      rating: '4.8',
+      category: 'AmazingViews',
+    },
+    {
+      image: 'https://img.freepik.com/premium-photo/landscape-mountains-fields-blue-sky-house-beautiful-view-landscape-faroe-island_1048944-8443717.jpg?ga=GA1.1.855665792.1726250483&semt=ais_hybrid',
+      title: 'Skyline Apartment with City Views',
+      type: 'Entire home',
+      guests: '2 guests',
+      bedrooms: '1 bedroom',
+      bathrooms: '1 bath',
+      price: '$275 per night',
+      rating: '4.9',
+      category: 'AmazingViews',
+    },
+    {
+      image: 'https://img.freepik.com/premium-photo/man-contemplating-mountains_321315-23.jpg?ga=GA1.1.855665792.1726250483&semt=ais_hybrid',
+      title: 'Luxurious Villa with Ocean View',
+      type: 'Entire home',
+      guests: '8 guests',
+      bedrooms: '4 bedrooms',
+      bathrooms: '3 baths',
+      price: '$750 per night',
+      rating: '5.0',
+      category: 'AmazingViews',
+    },
+    {
+      image: 'https://img.freepik.com/premium-photo/blue-sky-white-clouds-all-kinds-stones-plants-mountain_186367-32.jpg?ga=GA1.1.855665792.1726250483&semt=ais_hybrid',
+      title: 'Charming Lake View Home',
+      type: 'Entire home',
+      guests: '4 guests',
+      bedrooms: '2 bedrooms',
+      bathrooms: '1 bath',
+      price: '$350 per night',
+      rating: '4.8',
+      category: 'AmazingViews',
+    },
+    {
+      image: 'https://img.freepik.com/premium-photo/wooden-house-top-mountain-thailand_40555-37.jpg?ga=GA1.1.855665792.1726250483&semt=ais_hybrid',
+      title: 'Stunning Mountain Lodge',
+      type: 'Entire home',
+      guests: '10 guests',
+      bedrooms: '5 bedrooms',
+      bathrooms: '4 baths',
+      price: '$900 per night',
+      rating: '5.0',
+      category: 'AmazingViews',
+    },
+    {
+      image: 'https://img.freepik.com/premium-photo/man-standing-mountain-against-sky_1048944-263235.jpg?ga=GA1.1.855665792.1726250483&semt=ais_hybrid',
+      title: 'Cliff-Side Villa with Breathtaking Views',
+      type: 'Entire home',
+      guests: '6 guests',
+      bedrooms: '3 bedrooms',
+      bathrooms: '3 baths',
+      price: '$800 per night',
+      rating: '4.9',
+      category: 'AmazingViews',
+    },
+  ],
+  Arctic: [
+    {
+      image: 'https://img.freepik.com/premium-photo/female-photographer-cabin-snowy-woods_53876-152777.jpg?ga=GA1.1.855665792.1726250483&semt=ais_hybrid',
+      title: 'Charming Arctic Chalet',
+      type: 'Entire home',
+      guests: '5 guests',
+      bedrooms: '2 bedrooms',
+      bathrooms: '1 bath',
+      price: '$500 per night',
+      rating: '4.8',
+      category: 'Arctic',
+    },
+    {
+      image: 'https://img.freepik.com/premium-photo/cozy-winter-morning-with-warm-tea-scenic-mountain-view-from-cabin-window_93675-255692.jpg?ga=GA1.1.855665792.1726250483&semt=ais_hybrid',
+      title: 'Stunning Arctic Cabin Experience',
+      type: 'Entire home',
+      guests: '4 guests',
+      bedrooms: '2 bedrooms',
+      bathrooms: '1 bath',
+      price: '$400 per night',
+      rating: '4.9',
+      category: 'Arctic',
+    },
+    {
+      image: 'https://img.freepik.com/premium-photo/red-wooden-lodge-top-snow-hill-winter-scandinavian-countries-norway_49071-7774.jpg?ga=GA1.1.855665792.1726250483&semt=ais_hybrid',
+      title: 'Luxurious Arctic Lodge',
+      type: 'Entire home',
+      guests: '8 guests',
+      bedrooms: '4 bedrooms',
+      bathrooms: '3 baths',
+      price: '$1200 per night',
+      rating: '5.0',
+      category: 'Arctic',
+    },
+    {
+      image: 'https://img.freepik.com/premium-photo/wooden-dock-with-snowy-mountain-background_786688-901.jpg?ga=GA1.1.855665792.1726250483&semt=ais_hybrid',
+      title: 'Remote Arctic Cabin',
+      type: 'Entire home',
+      guests: '6 guests',
+      bedrooms: '3 bedrooms',
+      bathrooms: '2 baths',
+      price: '$650 per night',
+      rating: '4.7',
+      category: 'Arctic',
+    },
+    {
+      image: 'https://img.freepik.com/premium-photo/modern-scandinavian-chalet-houses-ski-resort-with-snow-mountains-view-sunny-afternoon_157173-8394.jpg?ga=GA1.1.855665792.1726250483&semt=ais_hybrid',
+      title: 'Arctic Luxury Villa',
+      type: 'Entire home',
+      guests: '10 guests',
+      bedrooms: '5 bedrooms',
+      bathrooms: '4 baths',
+      price: '$1800 per night',
+      rating: '5.0',
+      category: 'Arctic',
+    },
+    {
+      image: 'https://img.freepik.com/premium-photo/fireplace-room-with-view-mountains-mountains_1135748-47418.jpg?ga=GA1.1.855665792.1726250483&semt=ais_hybrids',
+      title: 'Charming Arctic Cabin with Fireplace',
+      type: 'Entire home',
+      guests: '4 guests',
+      bedrooms: '2 bedrooms',
+      bathrooms: '1 bath',
+      price: '$350 per night',
+      rating: '4.8',
+      category: 'Arctic',
+    },
+  ],
+  Omg: [
+    {
+      image: 'https://img.freepik.com/premium-photo/magical-tree-house-enchanted-forest-small-houses-built-into-old-tree-trunk-beautiful-fantasy_969707-11331.jpg?ga=GA1.1.855665792.1726250483&semt=ais_hybrid',
+      title: 'Unbelievable Tree House',
+      type: 'Entire home',
+      guests: '4 guests',
+      bedrooms: '2 bedrooms',
+      bathrooms: '1 bath',
+      price: '$300 per night',
+      rating: '4.9',
+      category: 'OMG!',
+    },
+    {
+      image: 'https://img.freepik.com/premium-photo/house-rock-skeli-dovbusha-ivano-frankovsk-region-ukraine_392053-5864.jpg?ga=GA1.1.855665792.1726250483&semt=ais_hybrid',
+      title: 'Unique Cave House Experience',
+      type: 'Entire home',
+      guests: '5 guests',
+      bedrooms: '3 bedrooms',
+      bathrooms: '2 baths',
+      price: '$600 per night',
+      rating: '5.0',
+      category: 'OMG!',
+    },
+    {
+      image: 'https://img.freepik.com/premium-photo/rendering-house-by-sea_9493-56038.jpg?ga=GA1.1.855665792.1726250483&semt=ais_hybrid',
+      title: 'Underwater Hotel Room',
+      type: 'Entire home',
+      guests: '2 guests',
+      bedrooms: '1 bedroom',
+      bathrooms: '1 bath',
+      price: '$1200 per night',
+      rating: '4.8',
+      category: 'OMG!',
+    },
+    {
+      image: 'https://img.freepik.com/premium-photo/houseboat-alappuzha-backwaters-kerala_78361-13379.jpg?ga=GA1.1.855665792.1726250483&semt=ais_hybrid',
+      title: 'House-Shaped Boat',
+      type: 'Entire home',
+      guests: '3 guests',
+      bedrooms: '1 bedroom',
+      bathrooms: '1 bath',
+      price: '$400 per night',
+      rating: '4.7',
+      category: 'OMG!',
+    },
+    {
+      image: 'https://img.freepik.com/premium-photo/aerial-red-barn-with-white-silo-trailer-parked-out-front-summer_501731-7942.jpg?ga=GA1.1.855665792.1726250483&semt=ais_hybrid',
+      title: 'Unique Silo House',
+      type: 'Entire home',
+      guests: '4 guests',
+      bedrooms: '2 bedrooms',
+      bathrooms: '1 bath',
+      price: '$250 per night',
+      rating: '4.6',
+      category: 'OMG!',
+    },
+    {
+      image: 'https://img.freepik.com/premium-photo/russian-winter-landscape-with-cottage-brown-stained-logs-with-winter-forest-snow-drifts_351981-258.jpg?ga=GA1.1.855665792.1726250483&semt=ais_hybrid',
+      title: 'Mysterious Snowy Cabin',
+      type: 'Entire home',
+      guests: '2 guests',
+      bedrooms: '1 bedroom',
+      bathrooms: '1 bath',
+      price: '$350 per night',
+      rating: '4.8',
+      category: 'OMG!',
+    },
+  ],
+  Design: [
+    {
+      image: 'https://img.freepik.com/premium-photo/building-with-black-roof-that-says-word-side_1086760-77431.jpg?ga=GA1.1.855665792.1726250483&semt=ais_hybrid',
+      title: 'Modern Design Apartment',
+      type: 'Entire home',
+      guests: '3 guests',
+      bedrooms: '1 bedroom',
+      bathrooms: '1 bath',
+      price: '$300 per night',
+      rating: '4.8',
+      category: 'Design',
+    },
+    {
+      image: 'https://img.freepik.com/premium-photo/house-with-black-roof-large-window-that-has-view-backyard_1231632-21983.jpg?ga=GA1.1.855665792.1726250483&semt=ais_hybrid',
+      title: 'Minimalist Home Design',
+      type: 'Entire home',
+      guests: '4 guests',
+      bedrooms: '2 bedrooms',
+      bathrooms: '1 bath',
+      price: '$400 per night',
+      rating: '4.9',
+      category: 'Design',
+    },
+    {
+      image: 'https://img.freepik.com/premium-photo/middle-class-contemporary-beautiful-modern-house_1269188-24553.jpg?ga=GA1.1.855665792.1726250483&semt=ais_hybrid',
+      title: 'Stylish Interior House',
+      type: 'Entire home',
+      guests: '5 guests',
+      bedrooms: '3 bedrooms',
+      bathrooms: '2 baths',
+      price: '$500 per night',
+      rating: '4.7',
+      category: 'Design',
+    },
+    {
+      image: 'https://img.freepik.com/premium-photo/rendering-house-designed-by-person_1231632-21112.jpg?ga=GA1.1.855665792.1726250483&semt=ais_hybrid',
+      title: 'Contemporary Design Apartment',
+      type: 'Entire home',
+      guests: '2 guests',
+      bedrooms: '1 bedroom',
+      bathrooms: '1 bath',
+      price: '$275 per night',
+      rating: '4.9',
+      category: 'Design',
+    },
+    {
+      image: 'https://img.freepik.com/premium-photo/modern-decorated-living-room_752325-42027.jpg?ga=GA1.1.855665792.1726250483&semt=ais_hybrid',
+      title: 'Creative Design Loft',
+      type: 'Entire home',
+      guests: '4 guests',
+      bedrooms: '2 bedrooms',
+      bathrooms: '1 bath',
+      price: '$350 per night',
+      rating: '4.8',
+      category: 'Design',
+    },
+    {
+      image: 'https://img.freepik.com/premium-photo/modern-decorated-living-room_752325-41064.jpg?ga=GA1.1.855665792.1726250483&semt=ais_hybrid',
+      title: 'Unique Architectural House',
+      type: 'Entire home',
+      guests: '5 guests',
+      bedrooms: '3 bedrooms',
+      bathrooms: '2 baths',
+      price: '$600 per night',
+      rating: '5.0',
+      category: 'Design',
+    },
+  ],
+  Mansions: [
+    {
+      image: 'https://img.freepik.com/premium-photo/home-house-exterior-design-showing-tropical-pool-villa-with-sun-bed_41487-558.jpg?ga=GA1.1.855665792.1726250483&semt=ais_hybrid',
+      title: 'Luxurious Mansion with Pool',
+      type: 'Entire home',
+      guests: '12 guests',
+      bedrooms: '6 bedrooms',
+      bathrooms: '5 baths',
+      price: '$2000 per night',
+      rating: '5.0',
+      category: 'Mansions',
+    },
+    {
+      image: 'https://img.freepik.com/premium-photo/home-house-exterior-design-showing-tropical-pool-villa-with-sun-bed_41487-563.jpg?ga=GA1.1.855665792.1726250483&semt=ais_hybrid',
+      title: 'Exquisite Mansion in the City',
+      type: 'Entire home',
+      guests: '10 guests',
+      bedrooms: '5 bedrooms',
+      bathrooms: '4 baths',
+      price: '$1500 per night',
+      rating: '4.9',
+      category: 'Mansions',
+    },
+    {
+      image: 'https://img.freepik.com/premium-photo/home-exterior-design-showing-tropical-pool-villa-with-greenery-garden_41487-418.jpg?ga=GA1.1.855665792.1726250483&semt=ais_hybrid',
+      title: 'Modern Mansion with Spectacular Views',
+      type: 'Entire home',
+      guests: '8 guests',
+      bedrooms: '4 bedrooms',
+      bathrooms: '3 baths',
+      price: '$1200 per night',
+      rating: '4.8',
+      category: 'Mansions',
+    },
+    {
+      image: 'https://img.freepik.com/premium-photo/home-house-exterior-design-showing-tropical-pool-villa-with-sun-bed_41487-557.jpg?ga=GA1.1.855665792.1726250483&semt=ais_hybrid',
+      title: 'Elegant Mansion with Gardens',
+      type: 'Entire home',
+      guests: '10 guests',
+      bedrooms: '5 bedrooms',
+      bathrooms: '4 baths',
+      price: '$1600 per night',
+      rating: '5.0',
+      category: 'Mansions',
+    },
+    {
+      image: 'https://img.freepik.com/premium-photo/modern-architecture-home-house-mansion-luxury-minimalist-design-with-pool-generative-ai_159242-29481.jpg?ga=GA1.1.855665792.1726250483&semt=ais_hybrid',
+      title: 'Stunning Seaside Mansion',
+      type: 'Entire home',
+      guests: '14 guests',
+      bedrooms: '7 bedrooms',
+      bathrooms: '6 baths',
+      price: '$3000 per night',
+      rating: '4.9',
+      category: 'Mansions',
+    },
+    {
+      image: 'https://img.freepik.com/premium-photo/modern-luxurious-residence-with-swimming-pool_97167-168.jpg?ga=GA1.1.855665792.1726250483&semt=ais_hybrid',
+      title: 'Mansion Surrounded by Forest',
+      type: 'Entire home',
+      guests: '8 guests',
+      bedrooms: '4 bedrooms',
+      bathrooms: '3 baths',
+      price: '$1500 per night',
+      rating: '4.8',
+      category: 'Mansions',
+    },
+  ],
+  Mountains: [
+    {
+      image: 'https://img.freepik.com/premium-photo/wooden-huts-with-rocky-mountains-autumn-forest-assiniboine-provincial-park-bc-canada_49071-3897.jpg?ga=GA1.1.855665792.1726250483&semt=ais_hybrid',
+      title: 'Mountain Cabin Retreat',
+      type: 'Entire home',
+      guests: '6 guests',
+      bedrooms: '3 bedrooms',
+      bathrooms: '2 baths',
+      price: '$400 per night',
+      rating: '4.8',
+      category: 'Mountains',
+    },
+    {
+      image: 'https://img.freepik.com/premium-photo/small-old-stone-wood-house-covered-with-moss-background-mountains_196938-642.jpg?ga=GA1.1.855665792.1726250483&semt=ais_hybrid',
+      title: 'Ski Resort Lodge',
+      type: 'Entire home',
+      guests: '8 guests',
+      bedrooms: '4 bedrooms',
+      bathrooms: '3 baths',
+      price: '$600 per night',
+      rating: '4.9',
+      category: 'Mountains',
+    },
+    {
+      image: 'https://img.freepik.com/premium-photo/viking-villagers-ealistic-forest-mountain-river-boat-viking-house_911201-7054.jpg?ga=GA1.1.855665792.1726250483&semt=ais_hybrid',
+      title: 'Luxurious Mountain Lodge',
+      type: 'Entire home',
+      guests: '10 guests',
+      bedrooms: '5 bedrooms',
+      bathrooms: '4 baths',
+      price: '$800 per night',
+      rating: '5.0',
+      category: 'Mountains',
+    },
+    {
+      image: 'https://img.freepik.com/premium-photo/homestay-cliff-realistic-high-detalied-uhd-wallpaper_1025314-10739.jpg?ga=GA1.1.855665792.1726250483&semt=ais_hybrid',
+      title: 'Modern Mountain Home',
+      type: 'Entire home',
+      guests: '8 guests',
+      bedrooms: '4 bedrooms',
+      bathrooms: '3 baths',
+      price: '$900 per night',
+      rating: '4.8',
+      category: 'Mountains',
+    },
+    {
+      image: 'https://img.freepik.com/premium-photo/house-hill-with-mountain-background_882954-88008.jpg?ga=GA1.1.855665792.1726250483&semt=ais_hybrid',
+      title: 'Mountain Villa with Scenic Views',
+      type: 'Entire home',
+      guests: '6 guests',
+      bedrooms: '3 bedrooms',
+      bathrooms: '2 baths',
+      price: '$500 per night',
+      rating: '4.9',
+      category: 'Mountains',
+    },
+    {
+      image: 'https://img.freepik.com/premium-photo/norway-rorbu-houses-mountains-rocks-fjord-landscape-scandinavian-travel-view-lofoten_196938-587.jpg?ga=GA1.1.855665792.1726250483&semt=ais_hybrid',
+      title: 'Cozy Cabin in the Woods',
+      type: 'Entire home',
+      guests: '4 guests',
+      bedrooms: '2 bedrooms',
+      bathrooms: '1 bath',
+      price: '$300 per night',
+      rating: '4.7',
+      category: 'Mountains',
+    },
+  ],
+  Chefskitchen: [
+    {
+        image: 'https://img.freepik.com/premium-photo/mastering-new-culinary-heights_579247-2910.jpg?ga=GA1.1.855665792.1726250483&semt=ais_hybrid',
+        title: 'Stunning Modern Kitchen Retreat',
+        type: 'Entire home',
+        guests: '6 guests',
+        bedrooms: '3 bedrooms',
+        bathrooms: '2 baths',
+        price: '$500 per night',
+        rating: '4.9',
+        category: 'Chefskitchen',
+    },
+    {
+        image: 'https://img.freepik.com/premium-photo/work-cook-kitchen-restaurant_110955-747.jpg?ga=GA1.1.855665792.1726250483&semt=ais_hybrid',
+        title: 'Farmhouse Kitchen with Scenic Views',
+        type: 'Entire home',
+        guests: '4 guests',
+        bedrooms: '2 bedrooms',
+        bathrooms: '1 bath',
+        price: '$350 per night',
+        rating: '4.8',
+        category: 'Chefskitchen',
+    },
+    {
+        image: 'https://img.freepik.com/premium-photo/portrait-young-woman-holding-food-laboratory_1048944-11446516.jpg?ga=GA1.1.855665792.1726250483&semt=ais_hybrid',
+        title: 'Industrial Style Kitchen Loft',
+        type: 'Entire home',
+        guests: '5 guests',
+        bedrooms: '2 bedrooms',
+        bathrooms: '1 bath',
+        price: '$400 per night',
+        rating: '4.7',
+        category: 'Chefskitchen',
+    },
+    {
+        image: 'https://img.freepik.com/premium-photo/men-cooking-barbecue-grill-yard-cook-barbecue-grill-preparing-meat_265223-129693.jpg?ga=GA1.1.855665792.1726250483&semt=ais_hybrid',
+        title: 'Spacious Kitchen with Garden Access',
+        type: 'Entire home',
+        guests: '8 guests',
+        bedrooms: '4 bedrooms',
+        bathrooms: '3 baths',
+        price: '$600 per night',
+        rating: '5.0',
+        category: 'Chefskitchen',
+    },
+    {
+        image: 'https://img.freepik.com/premium-photo/chef-cooks-modern-kitchen-ai-generated_749851-5213.jpg?ga=GA1.1.855665792.1726250483&semt=ais_hybrid',
+        title: 'Modern Gourmet Kitchen',
+        type: 'Entire home',
+        guests: '4 guests',
+        bedrooms: '2 bedrooms',
+        bathrooms: '1 bath',
+        price: '$450 per night',
+        rating: '4.8',
+        category: 'Chefskitchen',
+    },
+    {
+        image: 'https://img.freepik.com/premium-photo/working-chefs-prepare-beef-steak-inside-contemporary-professional-kitchen_28914-62091.jpg?ga=GA1.1.855665792.1726250483&semt=ais_hybrid',
+        title: 'Luxurious Kitchen Experience',
+        type: 'Entire home',
+        guests: '3 guests',
+        bedrooms: '1 bedroom',
+        bathrooms: '1 bath',
+        price: '$350 per night',
+        rating: '4.9',
+        category: 'Chefskitchen',
+    },
+],
+Desert: [
+  {
+      image: 'https://img.freepik.com/premium-photo/desert-punk-house_397139-22047.jpg?ga=GA1.1.855665792.1726250483&semt=ais_hybrid',
+      title: 'Desert Retreat Villa',
+      type: 'Entire home',
+      guests: '6 guests',
+      bedrooms: '3 bedrooms',
+      bathrooms: '2 baths',
+      price: '$450 per night',
+      rating: '4.8',
+      category: 'Desert',
+  },
+  {
+      image: 'https://img.freepik.com/premium-photo/exterior-modern-beautiful-home_690523-261.jpg?ga=GA1.1.855665792.1726250483&semt=ais_hybrid',
+      title: 'Desert Oasis Home',
+      type: 'Entire home',
+      guests: '8 guests',
+      bedrooms: '4 bedrooms',
+      bathrooms: '3 baths',
+      price: '$600 per night',
+      rating: '5.0',
+      category: 'Desert',
+  },
+  {
+      image: 'https://img.freepik.com/premium-photo/home-architecture-design-ranch-style-with-indooroutdoor-living_31965-161532.jpg?ga=GA1.1.855665792.1726250483&semt=ais_hybrid',
+      title: 'Eco-Friendly Desert Home',
+      type: 'Entire home',
+      guests: '4 guests',
+      bedrooms: '2 bedrooms',
+      bathrooms: '1 bath',
+      price: '$300 per night',
+      rating: '4.7',
+      category: 'Desert',
+  },
+  {
+      image: 'https://img.freepik.com/premium-photo/home-architecture-design-victorian-style-with-turret_31965-172845.jpg?ga=GA1.1.855665792.1726250483&semt=ais_hybrid',
+      title: 'Luxurious Desert Retreat',
+      type: 'Entire home',
+      guests: '10 guests',
+      bedrooms: '5 bedrooms',
+      bathrooms: '4 baths',
+      price: '$900 per night',
+      rating: '4.9',
+      category: 'Desert',
+  },
+  {
+      image: 'https://img.freepik.com/premium-photo/home-architecture-design-victorian-style-with-turret_31965-185624.jpg?ga=GA1.1.855665792.1726250483&semt=ais_hybrid',
+      title: 'Stunning Desert Home',
+      type: 'Entire home',
+      guests: '5 guests',
+      bedrooms: '3 bedrooms',
+      bathrooms: '2 baths',
+      price: '$500 per night',
+      rating: '4.8',
+      category: 'Desert',
+  },
+  {
+      image: 'https://img.freepik.com/premium-photo/3d-rendering-architecture-home_862994-5305.jpg?ga=GA1.1.855665792.1726250483&semt=ais_hybrid',
+      title: 'Unique Desert Cabin',
+      type: 'Entire home',
+      guests: '3 guests',
+      bedrooms: '2 bedrooms',
+      bathrooms: '1 bath',
+      price: '$350 per night',
+      rating: '4.6',
+      category: 'Desert',
+  },
+],
+
+Urban: [
+  {
+      image: 'https://img.freepik.com/premium-photo/building-with-lot-windows-sign-that-says-building-is-open_1086760-83389.jpg?ga=GA1.1.855665792.1726250483&semt=ais_hybrid',
+      title: 'Modern Urban Apartment',
+      type: 'Entire home',
+      guests: '4 guests',
+      bedrooms: '2 bedrooms',
+      bathrooms: '1 bath',
+      price: '$350 per night',
+      rating: '4.9',
+      category: 'Urban',
+  },
+  {
+      image: 'https://img.freepik.com/premium-photo/3d-rendering-modern-town-houses-with-garage-evening_1339711-30.jpg?ga=GA1.1.855665792.1726250483&semt=ais_hybrid',
+      title: 'Elegant City Apartment',
+      type: 'Entire home',
+      guests: '5 guests',
+      bedrooms: '3 bedrooms',
+      bathrooms: '2 baths',
+      price: '$450 per night',
+      rating: '4.8',
+      category: 'Urban',
+  },
+  {
+      image: 'https://img.freepik.com/premium-photo/building-is-designed-be-modern-home_1086760-80069.jpg?ga=GA1.1.855665792.1726250483&semt=ais_hybrid',
+      title: 'Luxurious Urban Loft',
+      type: 'Entire home',
+      guests: '6 guests',
+      bedrooms: '3 bedrooms',
+      bathrooms: '2 baths',
+      price: '$600 per night',
+      rating: '4.9',
+      category: 'Urban',
+  },
+  {
+      image: 'https://img.freepik.com/premium-photo/empty-dark-abstract-concrete-smooth-interior-architectural-background-3d-illustration-renderi_689904-142445.jpg?ga=GA1.1.855665792.1726250483&semt=ais_hybrid',
+      title: 'Stylish Urban Studio',
+      type: 'Entire home',
+      guests: '2 guests',
+      bedrooms: '1 bedroom',
+      bathrooms: '1 bath',
+      price: '$250 per night',
+      rating: '4.7',
+      category: 'Urban',
+  },
+  {
+      image: 'https://img.freepik.com/premium-photo/modern-apartment-flat-house-real-estate-concept-outdoor-residential-home-facilities_250132-16672.jpg?ga=GA1.1.855665792.1726250483&semt=ais_hybrid',
+      title: 'City View Apartment',
+      type: 'Entire home',
+      guests: '4 guests',
+      bedrooms: '2 bedrooms',
+      bathrooms: '1 bath',
+      price: '$400 per night',
+      rating: '4.8',
+      category: 'Urban',
+  },
+  {
+      image: 'https://img.freepik.com/premium-photo/view-modern-city-dusk-with-apartment-buildings-lit-up_1187703-133333.jpg?ga=GA1.1.855665792.1726250483&semt=ais_hybrid',
+      title: 'Modern Urban Loft with City Views',
+      type: 'Entire home',
+      guests: '5 guests',
+      bedrooms: '3 bedrooms',
+      bathrooms: '2 baths',
+      price: '$550 per night',
+      rating: '4.9',
+      category: 'Urban',
+  },
+],
+
+Lake: [
+  {
+      image: 'https://img.freepik.com/premium-photo/cabin-with-boat-water-house-side_1135748-49847.jpg?ga=GA1.1.855665792.1726250483&semt=ais_hybrid',
+      title: 'Lakefront Cottage',
+      type: 'Entire home',
+      guests: '6 guests',
+      bedrooms: '3 bedrooms',
+      bathrooms: '2 baths',
+      price: '$450 per night',
+      rating: '4.9',
+      category: 'Lake',
+  },
+  {
+      image: 'https://img.freepik.com/premium-photo/house-by-lake-with-dock-lights-water_1130573-74795.jpg?ga=GA1.1.855665792.1726250483&semt=ais_hybrid',
+      title: 'Luxurious Lake House',
+      type: 'Entire home',
+      guests: '8 guests',
+      bedrooms: '4 bedrooms',
+      bathrooms: '3 baths',
+      price: '$600 per night',
+      rating: '5.0',
+      category: 'Lake',
+  },
+  {
+      image: 'https://img.freepik.com/premium-photo/beautiful-country-house-norway-dream-cottage-nature_333900-1322.jpg?ga=GA1.1.855665792.1726250483&semt=ais_hybrid',
+      title: 'Cozy Lake Cabin',
+      type: 'Entire home',
+      guests: '4 guests',
+      bedrooms: '2 bedrooms',
+      bathrooms: '1 bath',
+      price: '$350 per night',
+      rating: '4.8',
+      category: 'Lake',
+  },
+  {
+      image: 'https://img.freepik.com/premium-photo/picturesque-lakeside-cabin-with-tranquil-waters-forest-view_980928-34622.jpg?ga=GA1.1.855665792.1726250483&semt=ais_hybrid',
+      title: 'Lake View Retreat',
+      type: 'Entire home',
+      guests: '5 guests',
+      bedrooms: '3 bedrooms',
+      bathrooms: '2 baths',
+      price: '$500 per night',
+      rating: '4.9',
+      category: 'Lake',
+  },
+  {
+      image: 'https://img.freepik.com/premium-photo/restaurant-dock-with-view-lake_865967-175669.jpg?ga=GA1.1.855665792.1726250483&semt=ais_hybrid',
+      title: 'Lakehouse with Deck',
+      type: 'Entire home',
+      guests: '4 guests',
+      bedrooms: '2 bedrooms',
+      bathrooms: '1 bath',
+      price: '$400 per night',
+      rating: '4.7',
+      category: 'Lake',
+  },
+  {
+      image: 'https://img.freepik.com/premium-photo/wooden-deck-with-bike-parked-it_865967-63622.jpg?ga=GA1.1.855665792.1726250483&semt=ais_hybrid',
+      title: 'Modern Lake Cabin',
+      type: 'Entire home',
+      guests: '4 guests',
+      bedrooms: '2 bedrooms',
+      bathrooms: '1 bath',
+      price: '$350 per night',
+      rating: '4.8',
+      category: 'Lake',
+  },
+],
+
+Countryside: [
+  {
+      image: 'https://img.freepik.com/premium-photo/traditional-norwegian-village-red-house-norway-rosendal_378297-128.jpg?ga=GA1.1.855665792.1726250483&semt=ais_hybrid',
+      title: 'Beautiful Countryside Home',
+      type: 'Entire home',
+      guests: '6 guests',
+      bedrooms: '3 bedrooms',
+      bathrooms: '2 baths',
+      price: '$500 per night',
+      rating: '4.9',
+      category: 'Countryside',
+  },
+  {
+      image: 'https://img.freepik.com/premium-photo/rural-houses-farm-field-sunset-countryside-with-clear-blue-sky_1137963-5579.jpg?ga=GA1.1.855665792.1726250483&semt=ais_hybrid',
+      title: 'Quiet Countryside Retreat',
+      type: 'Entire home',
+      guests: '4 guests',
+      bedrooms: '2 bedrooms',
+      bathrooms: '1 bath',
+      price: '$350 per night',
+      rating: '4.8',
+      category: 'Countryside',
+  },
+  {
+      image: 'https://img.freepik.com/premium-photo/irish-countryside-buildings-surrounded-by-forest-wild-animals-northern-ireland-breathtaking-scene-cozy-modern-houses-traditional-village-wild-nature-environment-peacefulness_130291-4270.jpg?ga=GA1.1.855665792.1726250483&semt=ais_hybrid',
+      title: 'Country Charm Cottage',
+      type: 'Entire home',
+      guests: '4 guests',
+      bedrooms: '2 bedrooms',
+      bathrooms: '1 bath',
+      price: '$300 per night',
+      rating: '4.7',
+      category: 'Countryside',
+  },
+  {
+      image: 'https://img.freepik.com/premium-photo/streets-typical-houses-city-marken-holland_148279-8.jpg?ga=GA1.1.855665792.1726250483&semt=ais_hybrid',
+      title: 'Spacious Countryside Villa',
+      type: 'Entire home',
+      guests: '8 guests',
+      bedrooms: '4 bedrooms',
+      bathrooms: '3 baths',
+      price: '$700 per night',
+      rating: '4.9',
+      category: 'Countryside',
+  },
+  {
+      image: 'https://img.freepik.com/premium-photo/countryside-village-rural-scenery-nature-landscape_279525-30727.jpg?ga=GA1.1.855665792.1726250483&semt=ais_hybrid',
+      title: 'Luxurious Country Estate',
+      type: 'Entire home',
+      guests: '10 guests',
+      bedrooms: '5 bedrooms',
+      bathrooms: '4 baths',
+      price: '$900 per night',
+      rating: '5.0',
+      category: 'Countryside',
+  },
+  {
+      image: 'https://img.freepik.com/premium-photo/row-modern-wooden-houses-nestled-lush-green-hill-cloudy-sky-offering-blend-nature-architecture_782515-11349.jpg?ga=GA1.1.855665792.1726250483&semt=ais_hybrid',
+      title: 'Renovated Countryside Barn',
+      type: 'Entire home',
+      guests: '5 guests',
+      bedrooms: '3 bedrooms',
+      bathrooms: '2 baths',
+      price: '$400 per night',
+      rating: '4.8',
+      category: 'Countryside',
+  },
+],
+
+Luxury: [
+  {
+      image: 'https://img.freepik.com/premium-photo/house-with-pool-palm-trees_1231632-20960.jpg?ga=GA1.1.855665792.1726250483&semt=ais_hybrid',
+      title: 'Luxurious Mansion',
+      type: 'Entire home',
+      guests: '10 guests',
+      bedrooms: '5 bedrooms',
+      bathrooms: '4 baths',
+      price: '$1500 per night',
+      rating: '5.0',
+      category: 'Luxury',
+  },
+  {
+      image: 'https://img.freepik.com/premium-photo/modern-house-with-pool-pool-with-view-pool_1231632-21062.jpg?ga=GA1.1.855665792.1726250483&semt=ais_hybrid',
+      title: 'Stunning Luxury Villa',
+      type: 'Entire home',
+      guests: '8 guests',
+      bedrooms: '4 bedrooms',
+      bathrooms: '3 baths',
+      price: '$1200 per night',
+      rating: '4.9',
+      category: 'Luxury',
+  },
+  {
+      image: 'https://img.freepik.com/premium-photo/picture-house-with-pool-pool_1231632-21818.jpg?ga=GA1.1.855665792.1726250483&semt=ais_hybrid',
+      title: 'Modern Luxury Home',
+      type: 'Entire home',
+      guests: '6 guests',
+      bedrooms: '3 bedrooms',
+      bathrooms: '2 baths',
+      price: '$900 per night',
+      rating: '4.8',
+      category: 'Luxury',
+  },
+  {
+      image: 'https://img.freepik.com/premium-photo/pool-house-are-designed-by-person_1013369-24109.jpg?ga=GA1.1.855665792.1726250483&semt=ais_hybrid',
+      title: 'Exclusive Beachfront Villa',
+      type: 'Entire home',
+      guests: '12 guests',
+      bedrooms: '6 bedrooms',
+      bathrooms: '5 baths',
+      price: '$2000 per night',
+      rating: '5.0',
+      category: 'Luxury',
+  },
+  {
+      image: 'https://img.freepik.com/premium-photo/modern-luxury-contemporary-house-design_1231632-22047.jpg?ga=GA1.1.855665792.1726250483&semt=ais_hybrid',
+      title: 'Luxury Lake House',
+      type: 'Entire home',
+      guests: '8 guests',
+      bedrooms: '4 bedrooms',
+      bathrooms: '3 baths',
+      price: '$1100 per night',
+      rating: '4.9',
+      category: 'Luxury',
+  },
+  {
+      image: 'https://img.freepik.com/premium-photo/modern-luxury-contemporary-house-design_1231632-21839.jpg?ga=GA1.1.855665792.1726250483&semt=ais_hybrid',
+      title: 'Exquisite Modern Villa',
+      type: 'Entire home',
+      guests: '10 guests',
+      bedrooms: '5 bedrooms',
+      bathrooms: '4 baths',
+      price: '$1800 per night',
+      rating: '5.0',
+      category: 'Luxury',
+  },
+],
+
+ 
+};
+
+
+// function App() {
+//   const [activeCategory, setActiveCategory] = useState('Beachfront'); // Default category
+//   const [listingsData, setListingsData] = useState([]);
+
+//   useEffect(() => {
+//     setListingsData(mockListings[activeCategory] || []); // Set listings based on active category
+//   }, [activeCategory]);
+
+//   return (
+//     <div className="App">
+//       <Navbar />
+//       <SearchBar />
+//       <Categories setActiveCategory={setActiveCategory} />
+//       <div className="listings-container">
+//         {listingsData.map((listing, index) => (
+//           <ListingCard 
+//             key={index}
+//             image={listing.image}
+//             title={listing.title}
+//             type={listing.type}
+//             guests={listing.guests}
+//             bedrooms={listing.bedrooms}
+//             bathrooms={listing.bathrooms}
+//             price={listing.price}
+//             rating={listing.rating}
+//           />
+//         ))}
+//       </div>
+//       <Footer />
+//     </div>
+//   );
+// }
+
 function App() {
+  const [activeCategory, setActiveCategory] = useState('Beachfront'); // Default category
+  const [listingsData, setListingsData] = useState([]);
+  const [searchTerm, setSearchTerm] = useState('');
+
+  useEffect(() => {
+    const updateListings = () => {
+      // Filter listings based on search term or category
+      const listingsInCategory = mockListings[activeCategory] || [];
+      const filteredListings = searchTerm
+        ? listingsInCategory.filter(listing => 
+            listing.title.toLowerCase().includes(searchTerm.toLowerCase())
+          )
+        : listingsInCategory;
+
+      console.log('Filtered Listings:', filteredListings); // Debugging line
+      setListingsData(filteredListings);
+    };
+
+    updateListings();
+  }, [activeCategory, searchTerm]);
+
   return (
     <div className="App">
       <Navbar />
-      <SearchBar />
-      <Categories />
+      <SearchBar setActiveCategory={setActiveCategory} setSearchTerm={setSearchTerm} />
+      <Categories activeCategory={activeCategory} setActiveCategory={setActiveCategory} />
       <div className="listings-container">
-        {/* Mock listings */}
-        <ListingCard 
-          image="https://img.freepik.com/premium-photo/purple-bohemian-bedroom-design_636537-515507.jpg?w=826" 
-          title="Stay in Prince’s Purple Rain house" 
-          type="Entire home"
-          guests="2 guests" 
-          bedrooms="1 bedroom" 
-          bathrooms="1 bath"
-          price="$7 per night" 
-          rating="5.0"
-        />
-        <ListingCard 
-          image="https://img.freepik.com/free-photo/landscape-sunset-architectural-matrix-stunning-modern-villa-with-swimming-pool_1409-5155.jpg?t=st=1728063926~exp=1728067526~hmac=d0bb2fdec6927039c6c90d05b3e142982f34f3396d748903b84c02a818ac240e&w=996" 
-          title="Sleepover at Polly Pocket’s Compact" 
-          type="Private room"
-          guests="4 guests" 
-          bedrooms="2 bedrooms" 
-          bathrooms="1 bath"
-          price="Sold out" 
-          rating="4.9"
-        />
-        <ListingCard 
-          image="https://img.freepik.com/premium-photo/model-house-with-red-roof-clock-front_862994-438113.jpg?w=740" 
-          title="Live like a Hobbit in the Shire" 
-          type="Entire home"
-          guests="3 guests" 
-          bedrooms="1 bedroom" 
-          bathrooms="1 bath"
-          price="$10 per night" 
-          rating="4.8"
-        />
-        <ListingCard 
-          image="https://img.freepik.com/premium-photo/castle-with-castle-top-tree-front_1013369-92561.jpg?w=996" 
-          title="Experience luxury in a French Chateau" 
-          type="Entire home"
-          guests="6 guests" 
-          bedrooms="3 bedrooms" 
-          bathrooms="2 baths"
-          price="$500 per night" 
-          rating="4.9"
-        />
-        <ListingCard 
-          image="https://img.freepik.com/free-photo/view-tank-container-water-storage_23-2151748289.jpg?t=st=1728065028~exp=1728068628~hmac=5b899336bd8d86b5cc0d0add3d54d55aabf5838150f97a37e9768de043368e91&w=826" 
-          title="Beachside Villa with Ocean View" 
-          type="Entire home"
-          guests="8 guests" 
-          bedrooms="4 bedrooms" 
-          bathrooms="3 baths"
-          price="$700 per night" 
-          rating="5.0"
-        />
-        <ListingCard 
-          image="https://img.freepik.com/premium-photo/wooden-cabins-woods_743855-61397.jpg?w=996" 
-          title="Rustic Cabin in the Woods" 
-          type="Entire cabin"
-          guests="5 guests" 
-          bedrooms="2 bedrooms" 
-          bathrooms="1 bath"
-          price="$120 per night" 
-          rating="4.7"
-        />
+        {listingsData.map((listing, index) => (
+          <ListingCard 
+            key={index}
+            image={listing.image}
+            title={listing.title}
+            type={listing.type}
+            guests={listing.guests}
+            bedrooms={listing.bedrooms}
+            bathrooms={listing.bathrooms}
+            price={listing.price}
+            rating={listing.rating}
+          />
+        ))}
       </div>
       <Footer />
     </div>
