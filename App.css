@@ -1,4 +1,3 @@
-/* Global styles */
 * {
   margin: 0;
   padding: 0;
@@ -14,7 +13,6 @@ body {
   margin: 0 auto;
 }
 
-/* Navbar styles */
 .navbar {
   display: flex;
   justify-content: space-between;
@@ -53,42 +51,11 @@ body {
   color: white;
 }
 
-/* SearchBar styles
 .searchbar {
   display: flex;
   justify-content: center;
-  padding: 20px;
-}
-
-.searchbar input {
-  padding: 15px;
-  width: 500px;
-  border: 1px solid #ccc;
-  border-radius: 20px 0 0 20px;
-  font-size: 19px;
-
-}
-
-.search-btn {
-  padding: 10px 20px;
-  background-color: #ff5a5f;
-  color: white;
-  border: none;
-  border-radius: 0 20px 20px 0;
-  cursor: pointer;
-  transition: background-color 0.3s;
-}
-
-.searchbar button:hover {
-  background-color: #f17289; 
-} */
-
-
-.searchbar {
-  display: flex;
-  justify-content: center;
-  margin: 20px 0; /* Adds space above and below the search bar */
-  width: 100%; /* Full width of the container */
+  margin: 20px 0; 
+  width: 100%; 
 }
 
 .search-inputs {
@@ -98,8 +65,8 @@ body {
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
   border-radius: 30px;
   overflow: hidden;
-  width: 100%; /* Ensure it takes full width of the parent */
-  max-width: 800px; /* Set a max width if needed */
+  width: 100%; 
+  max-width: 800px; 
 }
 
 .search-option {
@@ -122,11 +89,11 @@ body {
   outline: none;
   font-size: 16px;
   color: #666;
-  width: 100%; /* Make input fields take available width */
+  width: 100%;
 }
 
 .search-option.no-border {
-  border-right: none; /* Remove the border after "Who" */
+  border-right: none; 
 }
 
 .search-btn {
@@ -135,13 +102,13 @@ body {
   justify-content: center;
   width: 52px;
   height: 40px;
-  background-color: #ff5a5f; /* Button color */
+  background-color: #ff5a5f; 
   color: white;
   border: none;
   cursor: pointer;
   font-size: 18px;
-  border-radius: 50%; /* Make it circular */
-  margin-left: 10px; /* Adjust spacing to the left */
+  border-radius: 50%; 
+  margin-right: 12px; 
   transition: background-color 0.3s;
 }
 
@@ -149,8 +116,6 @@ body {
   background-color: #f17289;
 }
 
-
-/* Categories styles */
 .categories {
   display: flex;
   overflow-x: auto;
@@ -166,7 +131,6 @@ body {
   cursor: pointer;
 }
 
-/* ListingCard styles */
 .listings-container {
   display: flex;
   flex-wrap: wrap;
@@ -202,21 +166,21 @@ body {
 
 
 .social-icons {
-  display: flex; /* Align icons horizontally */
+  display: flex; 
 }
 
 .social-icon {
-  margin-left: 15px; /* Space between icons */
-  font-size: 20px; /* Size of social media icons */
-  cursor: pointer; /* Change cursor to pointer on hover */
+  margin-left: 15px; 
+  font-size: 20px; 
+  cursor: pointer; 
 }
 
 .categories-container {
   display: flex;
-  overflow-x: auto; /* Enables horizontal scrolling */
+  overflow-x: auto; 
   padding: 10px;
-  white-space: nowrap; /* Ensures the content stays on one line */
-  scrollbar-width: thin; /* For Firefox */
+  white-space: nowrap; 
+  scrollbar-width: thin; 
 }
 
 .category-card {
@@ -231,28 +195,26 @@ body {
   width: 97x;
   padding: 7px 4px;
   font-size: 14px;
-  text-decoration: none; /* Remove underline from anchor tags */
+  text-decoration: none; 
   color: black;
   transition: transform 0.3s ease-in-out;
 }
 .category-logo {
-  width: 45%; /* Adjust the logo width to fit inside the card */
+  width: 45%; 
   height: auto;
   max-width: 100px;
   border-radius: 5px;
 }
 
-/* Hover effect */
 .category-card:hover {
   cursor: pointer;
-  transform: scale(1.1); /* Slight zoom on hover */
+  transform: scale(1.1); 
   background-color: #f0f0f0;
 }
 .category-card.active {
-  background-color: #cbc8c8; /* Active category color */
+  background-color: #cbc8c8; 
   color: rgb(3, 0, 0);
 }
-/* Customize scrollbar */
 .categories-container::-webkit-scrollbar {
   height: 8px;
 }
@@ -271,7 +233,7 @@ body {
   justify-content: space-between;
   align-items: center;
   padding: 1rem;
-  background-color: #fff; /* Adjust based on your design */
+  background-color: #fff; 
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
 
@@ -282,24 +244,22 @@ body {
 
 .navbar-left .logo {
   width: 37px;
-  margin-right: 9px; /* Space between logo and name */
+  margin-right: 9px; 
 }
 
 .airbnb-name {
-  font-size: 24px; /* Size of the Airbnb name */
+  font-size: 24px; 
   color:  #ff5a5f;
-  font-weight: bold; /* Bold font for the name */
+  font-weight: bold; 
 }
 
 .navbar-links a {
   margin: 0 1rem;
   text-decoration: none;
-  color: #333;
-  
-  
+  color: #333;  
 }
 .navbar-links a:hover{
-background-color: rgba(163, 145, 145, 0.1);; /* Hover effect */
+background-color: rgba(163, 145, 145, 0.1);; 
 border-radius: 10px;
 padding: 10px 6px;
 }
@@ -311,7 +271,7 @@ padding: 10px 6px;
 .logo-and-menu {
   display: flex;
   align-items: center;
-  cursor: pointer; /* Change cursor to pointer on hover */
+  cursor: pointer; 
 }
 
 .three-dots {
@@ -320,13 +280,13 @@ padding: 10px 6px;
 
 .dropdown-menu {
   position: absolute;
-  top: 40px; /* Adjust to position below the 3-dot icon */
+  top: 40px; 
   right: 0;
   background-color: white;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
   border-radius: 5px;
   padding: 10px;
-  z-index: 100; /* Ensure it appears on top */
+  z-index: 100; 
   display: flex;
   flex-direction: column;
 }
@@ -341,8 +301,8 @@ padding: 10px 6px;
 }
 
 .menu-item:hover {
-  background-color: rgba(0, 0, 0, 0.1);; /* Hover effect */
-  cursor: pointer; /* Pointer cursor on hover */
+  background-color: rgba(0, 0, 0, 0.1);; 
+  cursor: pointer; 
   border-radius: 10px;
 }
 
@@ -414,6 +374,255 @@ padding: 10px 6px;
 .footer-icons svg:hover {
   color: #333;
 }
+
+.experiences-page, .online-experiences-page {
+  margin-top: 40px;
+  /* text-align: center; */
+  padding: 20px 30px;
+  padding-bottom: 60px;
+
+}
+
+.experience-detail, .online-experience-detail {
+  background-color: #f3f1f1;
+  padding: 15px;
+  margin: 10px 0;
+  border: 1px solid #a59696;
+  border-radius: 5px;
+  /* text-align: center; */
+}
+
+.listingdetailsname {
+  padding: 47px 0px;
+  text-align: center;
+  font-size: 30px;
+}
+
+
+.listdetimg{
+  width: 100%;
+}
+.listing-details-container {
+  padding: 20px;
+  margin: 20px;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  background-color: #f9f9f9;
+}
+
+.listing-details-name {
+  margin-bottom: 15px;
+  font-size: 24px;
+  color: #333;
+}
+
+.listing-details-image {
+  width: 100%;
+  height: auto;
+  border-radius: 8px;
+  margin-bottom: 15px;
+}
+
+.listing-detail {
+  margin-bottom: 10px;
+  font-size: 16px;
+}
+
+.listing-price {
+  font-weight: bold;
+  color: #e74c3c; /* or any color of your choice */
+}
+
+.listing-rating {
+  font-weight: bold;
+  color: #f39c12; /* or any color of your choice */
+}
+
+.book-now-button {
+  display: inline-block;
+  padding: 10px 15px;
+  background-color: #3498db; /* Change color as needed */
+  color: white;
+  text-decoration: none;
+  border-radius: 5px;
+}
+
+.book-now-button:hover {
+  background-color: #2980b9; /* Darker shade for hover effect */
+}
+
+
+
+
+
+
+.booking-page-container {
+  max-width: 600px;
+  height: 319px; 
+  margin: 100px auto;
+  padding: 20px;
+  border: 1px solid #ccc;
+  border-radius: 10px;
+  background-color: #f9f9f9;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+}
+
+.booking-page-container h2 {
+  text-align: center;
+  font-size: 39px;
+}
+
+.booking-page-container form {
+  display: flex;
+  flex-direction: column;
+}
+
+.booking-page-container label {
+  margin-bottom: 10px;
+  font-weight: bold;
+  margin: auto 29px;
+  font-size: 22px;
+}
+.bookingdiv{
+  margin-top: 34px;
+}
+.bookingdiv2{
+  margin-top: 1px;
+}
+.booking-page-container input[type="date"] {
+  padding: 10px;
+  margin-bottom: 15px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+}
+
+.booking-page-container button {
+  display: block; /* Set button to block level to use margins for centering */
+  width: 200px; /* Optional: set a fixed width for better centering */
+  padding: 10px;
+  background-color: #28a745;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 16px;
+  margin: 21px auto; /* Centers the button */
+}
+
+.property-summary {
+  margin: 20px 0;
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  background-color: #f9f9f9;
+}
+.summary-details {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  padding: 16px;
+  margin: 0px;
+  background-color: #f9f9f9;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+.summary-details h4 {
+  font-size: 1.5em;  /* Larger font size for the heading */
+  margin-bottom: 15px;  /* Space below the heading */
+}
+
+.summary-details p {
+  font-size: 1.2em;  /* Slightly larger font size for paragraphs */
+  margin: 5px 0;  /* Vertical margin for paragraphs */
+}
+
+.summary-details button {
+  margin-top: 15px;  /* Space above the button */
+  padding: 10px 20px;  /* Padding for the button */
+  font-size: 1em;  /* Button font size */
+  border: none;  /* Remove default border */
+  border-radius: 5px;  /* Rounded corners for the button */
+  background-color: #28a745;  /* Button background color */
+  color: white;  /* Button text color */
+  cursor: pointer;  /* Pointer cursor on hover */
+}
+
+.summary-details button:hover {
+  background-color: #28a745;  /* Darker background on hover */
+}
+
+.error {
+  color: red;
+  text-align: center;
+}
+
+.booking-page-container button:hover {
+  background-color: #218838;
+}
+
+.booking-page-container p {
+  color: red;
+  text-align: center;
+}
+/* Success Page Styles */
+.success-page-container {
+  text-align: center;
+  margin: 20px;
+  padding: 40px;
+  border-radius: 8px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  background-color: #f9f9f9;
+  max-width: 600px;
+  margin: 40px auto;
+}
+
+.success-page-container h2 {
+  color: #28a745; /* Green for success */
+  font-size: 2rem;
+}
+
+.success-page-container p {
+  font-size: 1rem;
+  margin: 10px 0;
+}
+
+.booking-details {
+  background-color: #f1f1f1;
+  padding: 20px;
+  border-radius: 6px;
+  margin: 20px 0;
+}
+
+.booking-details p {
+  font-size: 1.1rem;
+  margin: 5px 0;
+}
+
+.booking-details strong {
+  font-weight: bold;
+}
+
+.back-to-home {
+  background-color: #007bff;
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  font-size: 1rem;
+  border-radius: 5px;
+  cursor: pointer;
+  margin-top: 20px;
+}
+
+.back-to-home:hover {
+  background-color: #0056b3;
+}
+
+
+
+
 
 
 
@@ -647,7 +856,7 @@ p {
 }
 
 .footer {
-  display: block; /* Stack elements vertically */
+  display: block;
   text-align: center;
 }
 
@@ -658,11 +867,11 @@ p {
 
 .footer-links {
   display: block;
-  margin-bottom: 10px; /* Add space between the links and social icons */
+  margin-bottom: 10px; 
 }
 
 .footer-links li {
-  display: inline-block; /* Make the links display in a row */
+  display: inline-block; 
   margin: 0 5px;
   font-size: 15px;
 }
@@ -691,7 +900,7 @@ p {
 
 @media (max-width: 501px) {
   .listing-card {
-    width: calc(50% - 20px); /* 2 items per row */
+    width: calc(50% - 20px); 
   }
 
   .airbnb-name {
@@ -739,16 +948,16 @@ p {
 }
 
 .dropdown-menu {
-  width: 146px; /* Adjust the width of the dropdown */
+  width: 146px; 
 }
 
 .menu-item {
-  padding: 12px 7px; /* Adjust padding for mobile */
-  text-align: left; /* Align text left */
+  padding: 12px 7px; 
+  text-align: left; 
 }
 
 .navbar {
-  padding: 12px; /* Adjust navbar padding for mobile */
+  padding: 12px; 
 }
 
 .airbnb-name {
@@ -811,7 +1020,7 @@ p {
   
   .listing-card {
     width: calc(100% - 1px);
-} /* 1 items per row */
+} 
 .property-image {
   width: 100%;
   height: 210px;
