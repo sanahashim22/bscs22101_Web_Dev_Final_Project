@@ -3,6 +3,8 @@
 import express from 'express';
 import mockListings from './src/components/mocklisting.js';
 import cors from 'cors';
+import fs from 'fs';
+//import path from 'path';
 
 const app = express();
 const PORT = 5000;
@@ -42,52 +44,82 @@ app.get('/api/listings/:title', (req, res) => {
     }
 });
 
+//http://localhost:5000/api/bookings/
+app.get('/api/bookings', (req, res) => {
+    const filePath = './bookings.json';
 
-// Sample route for getting booking details by booking ID
-app.get('/api/bookings/:id', (req, res) => {
-    const bookingId = parseInt(req.params.id);
-    console.log('Looking for booking with ID:', bookingId); // Log the booking ID
+    fs.readFile(filePath, (err, data) => {
+        if (err) {
+            console.error('Error reading bookings.json:', err);
+            return res.status(500).json({ message: 'Failed to retrieve bookings.' });
+        }
 
-    const allListings = Object.values(mockListings).flat(); // Flatten the listings
-    let foundBooking = null;
-
-    allListings.forEach(listing => {
-        if (listing.bookings) {
-            console.log('Searching within listing:', listing.id); // Log listing info
-            foundBooking = listing.bookings.find(b => b.id === bookingId);
+        try {
+            const bookings = JSON.parse(data);
+            res.status(200).json(bookings);
+        } catch (parseError) {
+            console.error('Error parsing bookings.json:', parseError);
+            res.status(500).json({ message: 'Failed to parse bookings.' });
         }
     });
-
-    if (!foundBooking) {
-        return res.status(404).json({ message: 'Booking not found' });
-    }
-
-    res.json(foundBooking);
 });
 
-// Mock route to create a booking
-app.post('/api/bookings/:id', (req, res) => {
-    const { checkIn, checkOut, bookingId } = req.body;
-    const listingId = parseInt(req.params.id);
-    
-    const allListings = Object.values(mockListings).flat();
-    const listing = allListings.find(item => item.id === listingId);
+//http://localhost:5000/api/bookings/88
+app.get('/api/bookings/:id', (req, res) => {
+    const bookingId = parseInt(req.params.id); // Convert ID to a number
+    const filePath = './bookings.json';
 
-    if (!listing) {
-        return res.status(404).json({ message: 'Listing not found' });
-    }
+    fs.readFile(filePath, (err, data) => {
+        if (err) {
+            console.error('Error reading bookings.json:', err);
+            return res.status(500).json({ message: 'Failed to retrieve booking.' });
+        }
 
-    // Mock booking logic: Here you could save the booking details to a database
-    // Respond with success message
-    res.status(201).json({
-        message: 'Booking successful',
-        bookingId,
-        listingId,
-        checkIn,
-        checkOut,
-        listingTitle: listing.title
+        try {
+            const bookings = JSON.parse(data);
+            const booking = bookings.find(b => b.bookingId === bookingId); // Match booking ID
+
+            if (booking) {
+                res.status(200).json(booking);
+            } else {
+                res.status(404).json({ message: `Booking with ID ${bookingId} not found.` });
+            }
+        } catch (parseError) {
+            console.error('Error parsing bookings.json:', parseError);
+            res.status(500).json({ message: 'Failed to parse bookings.' });
+        }
     });
 });
+
+app.post('/api/bookings/:id', (req, res) => {
+    const booking = req.body;
+    const filePath = './bookings.json';
+
+    fs.readFile(filePath, (err, data) => {
+        let bookings = [];
+        if (!err && data) {
+            try {
+                bookings = JSON.parse(data);
+            } catch (parseError) {
+                console.error('Error parsing bookings.json:', parseError);
+            }
+        }
+
+        bookings.push(booking);
+
+        fs.writeFile(filePath, JSON.stringify(bookings, null, 2), (writeErr) => {
+            if (writeErr) {
+                console.error('Error saving booking:', writeErr);
+                return res.status(500).json({ message: 'Failed to save booking.' });
+            }
+            res.status(200).json({ message: 'Booking saved successfully!' });
+        });
+    });
+});
+
+
+
+
 
 // Start the server
 app.listen(PORT, () => {
