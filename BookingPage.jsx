@@ -205,31 +205,52 @@ const BookingPage = () => {
     };
 
     const handleBooking = async () => {
-        const bookingData = { listingId: id, checkIn, checkOut, bookingId };
-        const response = await fetch(`/api/bookings/${id}`, {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-            },
-            body: JSON.stringify(bookingData),
-        });
+        const bookingData = { 
+            listingId: id, 
+            checkIn, 
+            checkOut, 
+            bookingId, 
+            totalPrice 
+        };
     
-        const responseData = await response.json();
-        if (response.ok) {
-            alert('Booking successful!');
-            // Pass the booking details as state to the success page
-            navigate('/success', {
-                state: { 
-                    bookingId,
-                    checkIn,
-                    checkOut,
-                    totalPrice
-                }
+        try {
+            const response = await fetch(`http://localhost:5000/api/bookings/${id}`, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(bookingData),
             });
-        } else {
-            alert('Booking failed: ' + responseData.message);
+    
+            let responseData;
+            if (response.headers.get('Content-Type')?.includes('application/json')) {
+                responseData = await response.json();
+            } else {
+                console.warn('Non-JSON response:', await response.text());
+                responseData = null;
+            }
+    
+            if (response.ok && responseData) {
+                navigate('/success', {
+                    state: { 
+                        bookingId,
+                        checkIn,
+                        checkOut,
+                        totalPrice,
+                        message: responseData.message,
+                    },
+                });
+            } else {
+                alert('Booking failed: ' + (responseData?.message || 'Unknown error'));
+            }
+        } catch (error) {
+            console.error('Network error:', error);
+            alert('An error occurred. Please try again.');
         }
     };
+    
+    
+    
     
 
     return (
