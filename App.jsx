@@ -1,4 +1,4 @@
-// // App.jsx
+
 // import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 // import Navbar from './components/navbar';
 // import SearchBar from './components/searchbar';
@@ -8,48 +8,60 @@
 // import Booking from './components/BookingPage';
 // import Footer from './components/footer';
 // import Experiences from './pages/experience'; 
-// import mockListings from './components/mocklisting';
 // import OnlineExperiences from './pages/onlineExperience'; 
 // import { useEffect, useState } from 'react';
 // import SuccessPage from './components/SuccessPage';
+// import Login from './components/login';
+// import Signup from './components/signup';
+
 // import './css/App.css';
 
 // function App() {
-//   const [activeCategory, setActiveCategory] = useState('Beachfront'); 
-//   const [listingsData, setListingsData] = useState([]);
+//   const [activeCategory, setActiveCategory] = useState('Beachfront');
+//   const [listingsData, setListingsData] = useState([]);  
+//   const [filteredListings, setFilteredListings] = useState([]);
 //   const [searchTerm, setSearchTerm] = useState('');
+//   const fetchListings = async () => {
+//     try {
+//         const response = await fetch('http://localhost:5000/api/listings');
+//         if (!response.ok) {
+//             throw new Error('Failed to fetch listings');
+//         }
+//         const data = await response.json();
+//         console.log("Fetched data:", data);
+//         setListingsData(data);
+//         setFilteredListings(data);
+//     } catch (err) {
+//         console.log('Error fetching listings: ' + err.message);
+//     }
+// };
+
 
 //   const updateListings = () => {
-//     let filteredListings = [];
-
+//     let filtered = listingsData;
 //     if (searchTerm) {
-//       for (const category in mockListings) {
-//         const categoryListings = mockListings[category].filter(listing =>
-//           listing.title.toLowerCase().includes(searchTerm.toLowerCase())
-//         );
-//         filteredListings = filteredListings.concat(categoryListings);
-//       }
-
-//       if (filteredListings.length === 0) {
-//         filteredListings = mockListings[activeCategory] || [];
-//       }
-//     } else {
-//       filteredListings = mockListings[activeCategory] || [];
+//       filtered = filtered.filter(listing =>
+//         listing.title.toLowerCase().includes(searchTerm.toLowerCase())
+//       );
 //     }
-
-//     console.log('Filtered Listings:', filteredListings); 
-//     setListingsData(filteredListings);
+//     if (activeCategory) {
+//       filtered = filtered.filter(listing =>
+//         listing.category.toLowerCase() === activeCategory.toLowerCase()
+//       );
+//     }
+//     setFilteredListings(filtered); 
+//     console.log('Filtered Listings:', filtered);
 //   };
-
 //   useEffect(() => {
-//     updateListings();
-//   }, [activeCategory, searchTerm]);
-
+//     fetchListings();  
+//   }, []);
+//   useEffect(() => {
+//     updateListings();  
+//   }, [activeCategory, searchTerm, listingsData]);
 //   const handleCategorySelect = (category) => {
 //     setActiveCategory(category);
-//     setSearchTerm(''); 
+//     setSearchTerm('');  
 //   };
-
 //   return (
 //     <Router> 
 //       <div className="App">
@@ -62,34 +74,41 @@
 //                 <SearchBar 
 //                   setActiveCategory={setActiveCategory} 
 //                   setSearchTerm={setSearchTerm} 
-//                   categories={Object.keys(mockListings)} 
+//                   categories={['Beachfront', 'Mountain', 'Urban']} 
 //                 />
 //                 <Categories 
-//                   categories={Object.keys(mockListings)} 
+//                   categories={['Beachfront', 'Mountain', 'Urban']} 
 //                   onSelectCategory={handleCategorySelect} 
 //                   activeCategory={activeCategory} 
 //                 />
 //                 <div className="listings-container">
-//                   {listingsData.map((listing, index) => (
-//                     <ListingCard key={index} listing={listing} />
-//                   ))}
+//                   {filteredListings.length > 0 ? (
+//                     filteredListings.map((listing, index) => (
+//                       <ListingCard key={index} listing={listing} />
+//                     ))
+//                   ) : (
+//                     <p>No listings available.</p>
+//                   )}
 //                 </div>
 //               </>
 //             } 
 //           />
-//            <Route path="/listing/:id" element={<ListingDetails />} />
-//            <Route path="/booking/:id" element={<Booking />} />
-//            <Route path="/success" element={<SuccessPage />} />
+//           <Route path="/listing/:id" element={<ListingDetails />} />
+//           <Route path="/login" element={<Login />} />
+//           <Route path="/signup" element={<Signup />} />
+//           <Route path="/booking/:id" element={<Booking />} />
+//           <Route path="/success" element={<SuccessPage />} />
 //           <Route path="/experiences" element={<Experiences />} /> 
 //           <Route path="/online-experiences" element={<OnlineExperiences />} /> 
+//           <Route path="/listing/:title" element={<ListingDetails />} />
 //         </Routes>
 //         <Footer />
 //       </div>
 //     </Router>
 //   );
 // }
-
 // export default App;
+
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 import Navbar from './components/navbar';
 import SearchBar from './components/searchbar';
@@ -100,67 +119,63 @@ import Booking from './components/BookingPage';
 import Footer from './components/footer';
 import Experiences from './pages/experience'; 
 import OnlineExperiences from './pages/onlineExperience'; 
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useMemo } from 'react';
 import SuccessPage from './components/SuccessPage';
+import Login from './components/login';
+import Signup from './components/signup';
+import Admin from './components/admin'
+import AdminListings from './components/adminlistings';
+import AdminAddListing from './components/adminaddlistings';
+import AdminDeleteListing from './components/admindeletlistings';
+import AdminBookings from './components/adminbooking';
+import AdminUsers from './components/adminuser';
+import UserBookingInput from './components/UserBookingInput';
+import UserBookingsDisplay from './components/UserBookingsDisplay';
 import './css/App.css';
 
 function App() {
   const [activeCategory, setActiveCategory] = useState('Beachfront');
-  const [listingsData, setListingsData] = useState([]);  // State for the fetched listings
-  const [filteredListings, setFilteredListings] = useState([]); // Separate state for filtered listings
+  const [listingsData, setListingsData] = useState([]);  
   const [searchTerm, setSearchTerm] = useState('');
 
-  // Fetch listings from the API
   const fetchListings = async () => {
     try {
-      const response = await fetch('http://localhost:5000/api/listings');
-      if (!response.ok) {
-        throw new Error('Failed to fetch listings');
-      }
-      const data = await response.json();
-      console.log("Fetched data:", data);
-      setListingsData(data);  // Set the fetched data to listingsData state
-      setFilteredListings(data); // Set the fetched data to filtered listings as well
+        const response = await fetch('http://localhost:5000/api/listings');
+        if (!response.ok) {
+            throw new Error('Failed to fetch listings');
+        }
+        const data = await response.json();
+        console.log("Fetched data:", data);
+        setListingsData(data);
     } catch (err) {
-      console.log('Error fetching listings: ' + err.message);  // Handle errors
+        console.log('Error fetching listings: ' + err.message);
     }
   };
 
-  // Update listings based on category and search term
-  const updateListings = () => {
+  const filteredListings = useMemo(() => {
     let filtered = listingsData;
-
-    // Filter by search term
-    if (searchTerm) {
-      filtered = filtered.filter(listing =>
-        listing.title.toLowerCase().includes(searchTerm.toLowerCase())
+    console.log('Current search term:', searchTerm);  
+    const searchTermLower = searchTerm.trim().toLowerCase();
+    if (searchTermLower) {
+      filtered = listingsData.filter(listing => 
+        listing.title.toLowerCase().includes(searchTermLower)
       );
+      console.log('Filtered Listings after search:', filtered);  
+      return filtered; 
     }
-
-    // Filter by active category
     if (activeCategory) {
-      filtered = filtered.filter(listing =>
+      filtered = listingsData.filter(listing =>
         listing.category.toLowerCase() === activeCategory.toLowerCase()
       );
     }
-
-    setFilteredListings(filtered); // Update the filtered listings
-    console.log('Filtered Listings:', filtered);
-  };
-
+    return filtered;
+  }, [searchTerm, activeCategory, listingsData]);
   useEffect(() => {
-    fetchListings();  // Fetch listings on component mount
+    fetchListings();  
   }, []);
-
-  useEffect(() => {
-    updateListings();  // Update listings whenever activeCategory or searchTerm changes
-  }, [activeCategory, searchTerm, listingsData]);
-
   const handleCategorySelect = (category) => {
     setActiveCategory(category);
-    setSearchTerm('');  // Clear search term when category is changed
   };
-
   return (
     <Router> 
       <div className="App">
@@ -173,7 +188,7 @@ function App() {
                 <SearchBar 
                   setActiveCategory={setActiveCategory} 
                   setSearchTerm={setSearchTerm} 
-                  categories={['Beachfront', 'Mountain', 'Urban']} // Example categories
+                  categories={['Beachfront', 'Mountain', 'Urban']} 
                 />
                 <Categories 
                   categories={['Beachfront', 'Mountain', 'Urban']} 
@@ -192,17 +207,25 @@ function App() {
               </>
             } 
           />
-           <Route path="/listing/:id" element={<ListingDetails />} />
-           <Route path="/booking/:id" element={<Booking />} />
-           <Route path="/success" element={<SuccessPage />} />
+          <Route path="/listing/:id" element={<ListingDetails />} />
+          <Route path="/bookings" element={<UserBookingInput />} />
+          <Route path="/bookings/:email" element={<UserBookingsDisplay />} />
+          <Route path="/login" element={<Login />} />
+          <Route path="/signup" element={<Signup />} />
+          <Route path="/admin" element={<Admin/>} />
+          <Route path="/booking/:id" element={<Booking />} />
+          <Route path="/success" element={<SuccessPage />} />
           <Route path="/experiences" element={<Experiences />} /> 
           <Route path="/online-experiences" element={<OnlineExperiences />} /> 
-          <Route path="/listing/:title" element={<ListingDetails />} />
+          <Route path="/admin/listings" element={<AdminListings />} />
+          <Route path="/admin/users" element={<AdminUsers />} />
+          <Route path="/admin/listings/add" element={<AdminAddListing />} />
+          <Route path="/admin/listings/delete" element={<AdminDeleteListing />} />
+          <Route path="/admin/bookings" element={<AdminBookings />} />
         </Routes>
         <Footer />
       </div>
     </Router>
   );
 }
-
 export default App;
