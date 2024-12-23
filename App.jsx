@@ -131,6 +131,8 @@ import AdminBookings from './components/adminbooking';
 import AdminUsers from './components/adminuser';
 import UserBookingInput from './components/UserBookingInput';
 import UserBookingsDisplay from './components/UserBookingsDisplay';
+import AdminPasswordPage from './components/AdminPasswordPage';
+// import ProtectedRoute from "./components/ProtectedRoute";
 import './css/App.css';
 
 function App() {
@@ -213,6 +215,7 @@ function App() {
           <Route path="/login" element={<Login />} />
           <Route path="/signup" element={<Signup />} />
           <Route path="/admin" element={<Admin/>} />
+          <Route path="/admin-password" element={<AdminPasswordPage />} />
           <Route path="/booking/:id" element={<Booking />} />
           <Route path="/success" element={<SuccessPage />} />
           <Route path="/experiences" element={<Experiences />} /> 
@@ -222,6 +225,37 @@ function App() {
           <Route path="/admin/listings/add" element={<AdminAddListing />} />
           <Route path="/admin/listings/delete" element={<AdminDeleteListing />} />
           <Route path="/admin/bookings" element={<AdminBookings />} />
+          
+          
+          
+           {/* Protected Routes 
+           <Route
+            path="/admin/users"
+            element={
+              <ProtectedRoute>
+                <AdminUsers />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/bookings"
+            element={
+              <ProtectedRoute>
+                <UserBookingInput />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/admin"
+            element={
+              <ProtectedRoute>
+                <Admin />
+              </ProtectedRoute>
+            }
+          />
+           */}
+
+
         </Routes>
         <Footer />
       </div>

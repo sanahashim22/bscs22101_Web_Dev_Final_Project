@@ -802,7 +802,7 @@ padding: 10px 6px;
 }
 
 .admin-btn:active {
-  background-color: #00408d;
+  background-color: #fe9a8c;
 }
 .adminhead{
   font-size: 50px;
@@ -815,6 +815,8 @@ padding: 10px 6px;
 
 .admin-listings {
   padding: 20px;
+  font-size: 24px;
+  font-weight: bold;
 }
 
 .listings-container2 {
@@ -845,15 +847,19 @@ padding: 10px 6px;
 .listh3 {
   font-size: 1.5rem;
   margin: 10px 0;
+  font-weight: bold;
 }
-
+.admin-properties-list{
+  margin-top: 20px;  
+}
 .listp {
   font-size: 1rem;
   margin: 5px 0;
+  font-weight: lighter;
 }
 
 strong {
-  color: #555;
+  color: #050505;
 }
 .admin-add-listing-container {
   padding: 20px;
@@ -869,6 +875,8 @@ strong {
   text-align: center;
   font-size: 1.8rem;
   margin-bottom: 20px;
+  font-size: 24px;
+  font-weight: bold;
 }
 
 .admin-add-listing-form {
@@ -985,6 +993,8 @@ strong {
   text-align: center;
   color: #333;
   margin-bottom: 20px;
+  font-size: 24px;
+  font-weight: bold;
 }
 
 .bookings-list {
@@ -1246,6 +1256,90 @@ strong {
   font-size: 16px;
   color: #666;
 }
+
+.admin-password-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-top: 50px;
+  padding: 20px;
+  background-color: #f4f4f4;
+  border-radius: 8px;
+  width: 40%;
+  margin: 50px auto;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.admin-password-title {
+  font-size: 24px;
+  font-weight: bold;
+  color: #333;
+  margin-bottom: 20px;
+}
+
+.admin-password-form {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 100%;
+}
+
+.admin-password-input {
+  width: 80%;
+  padding: 10px;
+  margin-bottom: 20px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  font-size: 16px;
+}
+
+.admin-password-button {
+  padding: 10px 20px;
+  background-color: #e74c3c;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 16px;
+  transition: background-color 0.3s;
+}
+
+.admin-password-button:hover {
+  background-color: #fe9a8c;
+}
+
+.admin-password-error {
+  color: #e74c3c;
+  font-size: 18px;
+  font-weight: bold;
+  margin-top: 10px;
+  text-align: center;
+}
+
+.admin-password-back-button {
+  background-color: #e74c3c;
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  font-size: 16px;
+  cursor: pointer;
+  border-radius: 5px;
+  margin-top: 20px;
+  transition: background-color 0.3s ease;
+}
+
+.admin-password-back-button:hover {
+  background-color: #fe9a8c;
+}
+
+
+
+
+
+
+
+
+
 
 
 
