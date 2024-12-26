@@ -3,7 +3,7 @@ import { useParams, useNavigate } from 'react-router-dom';
 
 function UserBookingsDisplay() {
     const { email } = useParams();
-    const navigate = useNavigate();  // Use navigate hook
+    const navigate = useNavigate();  
     const [bookings, setBookings] = useState([]);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);

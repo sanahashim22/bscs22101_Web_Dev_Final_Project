@@ -3,13 +3,16 @@ import axios from 'axios';
 
 const AdminAddListing = () => {
   const [formData, setFormData] = useState({
+    id: '',
     title: '',
     type: '',
     price: '',
     image: '',
     guests: '',
+    category: '',
     bedrooms: '',
     bathrooms: '',
+    rating: '',
     description: ''
   });
 
@@ -42,6 +45,13 @@ const AdminAddListing = () => {
     <div className="admin-add-listing-container">
       <h2 className="admin-add-listing-title">Add New Listing</h2>
       <form onSubmit={handleSubmit} className="admin-add-listing-form">
+      {/* <input
+          type="number"
+          name="id"
+          className="admin-input"
+          placeholder="id"
+          onChange={handleInputChange}
+        /> */}
         <input
           type="text"
           name="title"
@@ -70,6 +80,13 @@ const AdminAddListing = () => {
           placeholder="Image URL"
           onChange={handleInputChange}
         />
+          <input
+          type="string"
+          name="category"
+          className="admin-input"
+          placeholder="category"
+          onChange={handleInputChange}
+        />
         <input
           type="number"
           name="guests"
@@ -91,6 +108,13 @@ const AdminAddListing = () => {
           placeholder="Bathrooms"
           onChange={handleInputChange}
         />
+        <input
+          type="number"
+          name="rating"
+          className="admin-input"
+          placeholder="rating"
+          onChange={handleInputChange}
+        />
         <textarea
           name="description"
           className="admin-textarea"
@@ -101,7 +125,8 @@ const AdminAddListing = () => {
       </form>
 
       <div className="admin-properties-list">
-        <h3>Admin Listings Titles After Adding New Listing</h3>
+      <h3 style={{ fontWeight: 'bold' }}>Admin Listings Titles After Adding New Listing:</h3>
+        <br />
         <ul>
           {adminProperties.map(property => (
             <li key={property._id}>

@@ -22,6 +22,9 @@ const Admin = () => {
         <Link to="/admin/users" className="admin-option">
           <button className="admin-btn">View Users</button>
         </Link>
+        <Link to="/" className="admin-option">
+          <button className="admin-btn">Go Back</button>
+        </Link>
       </div>
     </div>
   );
